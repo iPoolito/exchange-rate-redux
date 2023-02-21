@@ -1,4 +1,13 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { getExchangeRates } from '../api'
+
+const supportedCurrencies = ["USD", "EUR", "JPY", "CAD", "GBP", "MXN"];
+export const fetchData = createAsyncThunk(
+    'currency/fetchData', async (currency) => {
+        const response = await getExchangeRates(currency, supportedCurrencies)
+        return response
+    }
+)
 
 
 export const currencySlice = createSlice({
@@ -10,7 +19,6 @@ export const currencySlice = createSlice({
     },
     reducers: {
         setData: (state, action) => {
-            console.log({ action })
             state.data = action.payload
         },
         changeCurrencyCode: (state, action) => {
@@ -20,8 +28,12 @@ export const currencySlice = createSlice({
         amountCurrency: (state, action) => {
             state.amount = action.payload
         },
-
     },
+    extraReducers: (builder) => {
+        builder.addCase(fetchData.fulfilled, (state, action) => {
+            state.data = action.payload
+        })
+    }
 })
 
 export const { amountCurrency, changeCurrencyCode } = currencySlice.actions
