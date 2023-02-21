@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux'
-import { amountCurrency } from '../currencySlice'
+import { amountCurrency } from '../redux/currencySlice'
 export function AmountField({ amount }) {
   const dispatch = useDispatch()
 

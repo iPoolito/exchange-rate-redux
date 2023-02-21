@@ -1,4 +1,8 @@
+import { useSelector } from "react-redux";
+
 export function RateTable({ currencyData, amount }) {
+
+  const name = useSelector((state) => state.users.name)
   return (
     <table className="ExchangeRate-table">
       <tbody>
@@ -17,7 +21,15 @@ export function RateTable({ currencyData, amount }) {
             </tr>
           );
         })}
+
       </tbody>
+      <tfoot>
+        <tr>
+          <td colSpan={2}>
+            Prepared for {name}
+          </td>
+        </tr>
+      </tfoot>
     </table>
   );
 }
